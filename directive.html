@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVueJS2 Directive</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="dist/vue.js"></script> -->
+</head>
+<body>
+    <div id="app">
+        <p v-html="message"></p>
+        <p v-once="message"></p>
+        <p v-text="message"></p>
+        <p v-show="display">{{ message }}</p>
+        <h5 v-if="display">{{ message }}</h5>
+
+        <h1 v-if="display">{{ message }}</h1>
+        <h1 v-else>Untitle</h1>
+
+        <br>
+        <div v-if="nilai === 'A'">
+            Sempurna
+        </div>
+        <div v-else-if="nilai === 'B'">
+            Bagus
+        </div>
+        <div v-else-if="nilai === 'C'">
+            Cukup
+        </div>
+        <div v-else>
+            Kurang
+        </div>
+
+        <br>
+        <button v-on:click="info()">Informasi</button>
+        <button v-on:click="hai('halo')">Hai</button>
+
+        <button v-on:click="counter += 1">
+            Counter
+        </button>
+        <p>Button di atas telah diklik sebanyak {{ counter }} kali.</p>
+
+        <br>
+        <a href="http://vuejs.org" v-on:click="link($event)">Vuejs.org</a>
+
+        <br>
+        <a href="http://vuejs.org" v-on:click.prevent="hai('Go to link')">Second Vuejs.org</a>
+
+        <br>
+        <button v-on:click.once="hai('selamat datang')">
+            Informasi
+        </button>
+
+        <br>
+        <!-- object syntax (2.4.0+) -->
+        <button v-on="{ mousedown: info, mouseup: hai }"></button>
+        <!-- chain modifiers -->
+        <button v-on:click.stop.prevent="hai"></button>
+
+
+        <br>
+        <button @click.ctrl="info">A</button>
+        <!-- hanya akan dijalankan ketika CTRL diklik dan tidak mengklik key lain -->
+        <button @click.ctrl.exact="info">A</button>
+        <!-- 
+            v-on:mouseover ketika mouse berada di area elemen.
+            v-on:mouseenter ketika mouse masuk ke area elemen.
+            v-on:mouseout ketika mouse keluar dari area elemen.
+            v-on:mousedown sama dengan v-on:click.
+            v-on:keyup ketika keyboard up pada elemen (biasanya digunakan pada elemen input).
+            v-on:keydown ketika keyboard down pada elemen (biasanya digunakan pada elemen input).
+            v-on:submit ketika form di submit.
+        -->
+
+        <br>
+        <div v-bind:class="[ classA, classB ]"></div>
+        <div v-bind:class="{ red: classA }"></div>
+        <div v-bind:style="{ fontSize: 24 + 'px' }"></div>
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello vue',
+                display: true,
+                nilai: 'B',
+                counter: 0,
+                classA: 'test',
+                classB: 'test2'
+            },
+            methods: {
+                info() {
+                    alert('info')
+                },
+                hai(param) {
+                    alert(param)
+                },
+                link(event) {
+                    alert('vueee' + event.target.value)
+                    event.preventDefault()
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVueJS2</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="dist/vue.js"></script> -->
+
+    <style type="text/css">
+        .title{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1 v-bind:class="class_h1">{{ message.split('').reverse().join('') }}</h1>
+
+        <p>{{ 'Haiii : ' + (ok ? message : '') }}</p>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello world!',
+                class_h1: 'title',
+                ok: true,
+            },
+            beforeCreate () {
+                console.log('before create: '+
+                'message = ' + this.message)
+            },
+            created () {
+                console.log('created: '+
+                'message = ' + this.message)
+            },
+            beforeMount() {
+                console.log('before mount: '+
+                'el = ' + this.$el.textContent)
+            },
+            mounted() {
+                console.log('mounted: '+
+                'el = ' + this.$el.textContent)
+            },
+            beforeUpdate() {
+                console.log('before update: '+
+                'el = ' + this.$el.textContent)
+            },
+            updated() {
+                console.log('update: '+
+                'el = ' + this.$el.textContent)
+            },
+            beforeDestroy () {
+                console.log('before destroy')
+            },
+            destroyed () {
+                console.log('destroyed')
+            },
+        })
+
+        vm.$watch('message', function (newValue, oldValue) {
+            console.log('Var message diubah dari '+oldValue+' menjadi '+newValue)
+        })
+
+        vm.$destroy();
+    </script>
+</body>
+</html>

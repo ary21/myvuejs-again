@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVueJS2 Properti Methods, Computed, & Filters</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="dist/vue.js"></script> -->
+</head>
+<body>
+    <div id="app">
+        <h2>Hai {{ fullName }}</h2>
+        <h1>{{ message | upper }}</h1>
+        <h1>{{ counter }}</h1>
+        <button onclick="vm.increment()"> + </button>
+
+        <br>
+        <h1> {{ price | formatCurrency('USD') }} </h1>
+        <h1> {{ price | formatCurrency('IDR') }} </h1>
+
+        <br>
+        <h1> upper: {{ message | upper }} </h1>
+        <h1> reverse: {{ message | reverse }} </h1>
+        <h1> upper & reverse: {{ message | upper | reverse }} </h1>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                counter: 0,
+                firstName: 'Eko',
+                lastName: 'Arifin',
+                message: 'Hello world!',
+                price: 500000,
+            },
+            methods: {
+                increment () {
+                    this.counter++
+                }
+            },
+            computed: {
+                fullName: function () {
+                    return this.firstName + ' ' + this.lastName
+                }
+            },
+            filters: {
+                upper (text) {
+                    return text.toUpperCase()
+                },
+                reverse (text) {
+                    return text.split('').reverse().join('')
+                },
+                formatCurrency (value, currency) {
+                    var formatter = new Intl.NumberFormat('id-ID', {
+                        style: 'currency',
+                        currency: currency,
+                        minimumFractionDigits: 2,
+                    });
+                    return formatter.format(value)
+                }
+            },
+        })
+    </script>
+</body>
+</html>
