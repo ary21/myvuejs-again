@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyVueJS2 Form</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- <script src="dist/vue.js"></script> -->
+
+    <style>
+        form {
+            border: 1px solid #ddd;
+            padding:5px;
+            width:225px;
+            background: #efefef;
+        }
+        label{
+            display: block;
+            margin-top: 5px;
+        }
+        
+        input, textarea, select, option {
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <form @submit="submitForm($event)" action="http://example.com/add-product" method="post">
+            <label>Title:</label>
+            <input type="text" v-model="title" />
+        
+            <label>Description:</label>
+            <textarea v-model="description"></textarea>
+        
+            <label>Authors:</label>
+            <input type="text" v-model="authors">
+        
+            <label>Price:</label>
+            <input type="number" v-model.number="price">
+        
+            <label>Categories:</label>
+            <select v-model="categories" multiple>
+                <option v-for="option in options" :value="option.value">
+                    {{ option.text }}
+                </option>
+            </select>
+        
+            <label></label>
+            <input type="submit" value="Submit">  
+        </form>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                title: '',
+                description: '',
+                authors: '',
+                price: 0,
+                categories: [],
+                options: [
+                    { text: 'Graphics Programming', value: '01' },
+                    { text: 'Mobile Application Development', value: '02' },
+                    { text: 'Virtual and Augmented Reality', value: '03' }
+                ]
+            },
+            methods: {
+                submitForm(event){
+                    console.log(event)
+
+                    // kode validasi
+                    if(this.title.length < 3){
+                        this.$refs.title.focus()
+                        alert('Title minimal 3 karakter!')
+                    }
+
+                    if( this.errors.length === 0 ){
+                        //alert('Terima kasih telah mengisi data dengan benar!')
+
+                        // persiapkan data
+                        let formBook = this.$refs.formBook
+                        formData = new FormData(formBook);
+
+                        // kirim data ke server
+                        let xhttp = new XMLHttpRequest() // create objek XMLHttp
+
+                        // definisikan fungsi ketika terjadi perubahan state
+                        xhttp.onreadystatechange = function() {
+                            // state ini menunjukkan data terkirim dan diterima server dengan baik
+                            if (this.readyState == 4 && this.status == 200) {
+                                // respon text dari server
+                                console.log(this.responseText)
+                            }
+                        }
+                        // sesuaikan dengan lokasi file index.php di lokasi komputer kamu
+                        xhttp.open("POST", "http://localhost/index.php", true)
+
+                        // bisa juga langsung nama filenya jika berada dalam satu folder yang sama
+                        // xhttp.open("POST", "index.php", true)
+
+                        // kirim objek formData
+                        xhttp.send(formData)
+                    }
+
+                    // block redirect ke action
+                    event.preventDefault()
+                }
+            }
+        })
+    </script>
+</body>
+</html>
